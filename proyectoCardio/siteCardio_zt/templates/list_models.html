@@ -1,0 +1,67 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block title %} ZT-Inicio - Models{% endblock %}
+
+{% block contains_admin %}
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{% url 'home' %}">Modelos</a>
+      </li>
+      <li class="breadcrumb-item active">
+        <a href="{% url 'home' %}">Home</a>
+      </li>
+      <li class="breadcrumb-item active">
+        <a href="{% url 'list-models' %}">Models</a>
+      </li>
+    </ol>
+
+    <!-- DataTables Example -->
+    <div class="card mb-3">
+      <div class="card-header">
+        <i class="fas fa-table"></i>
+        Data Table Example</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Dependientes</th>
+                <th>Independientes</th>
+                <th>Create Date</th>
+                <th></th>
+                <!--th></th-->
+              </tr>
+            </thead>
+            <tfoot>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Dependientes</th>
+                <th>Independientes</th>
+                <th>Create Date</th>
+                <!--th></th-->
+                <th></th>
+              </tr>
+            </tfoot>
+            <tbody>
+            {% for model in models %}
+              <tr>
+                <td>{{ model.name }}</td>
+                <td>{{ model.description }}</td>
+                <td>{{ model.dependent_var }}</td>
+                <td>{{ model.independent_var }}</td>
+                <td>{{ model.create_date }}</td>
+                <!--td><a href="{% url 'model' id_model=model.id_model %}">Entrenar</a></td-->
+                <td><a href="{% url 'prediction' id_model=model.id_model %}">Predecir</a></td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+    </div>
+{% endblock %}

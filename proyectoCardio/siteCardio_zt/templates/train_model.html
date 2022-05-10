@@ -1,0 +1,40 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block title %} ZT-Inicio - Models{% endblock %}
+
+{% block contains_admin %}
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{% url 'home' %}">Dashboard</a>
+      </li>
+      <li class="breadcrumb-item active">
+        <a href="{% url 'home' %}">Home</a>
+      </li>
+      <li class="breadcrumb-item active">
+        <a href="{% url 'list-models' %}">Models</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a href="{% url 'model' id_model=model.id_model %}">{{ model.name }}</a>
+      </li>
+    </ol>
+
+    <!-- DataTables Example -->
+    <div class="card mb-3">
+        <ul>
+            <li><b>Model:</b> {{ model.name }}</li>
+            <li><b>Fecha de creación:</b> {{ model.create_date }}</li>
+        </ul>
+        <br>
+        <form action='' method='POST'>
+            {% csrf_token %}
+            <button type='submit'>Entrenar modelo</button>
+        </form>
+        <b>Details:</b>
+        <br>
+
+        <pre>
+            {{details | safe}}
+        </pre>
+    </div>
+{% endblock %}

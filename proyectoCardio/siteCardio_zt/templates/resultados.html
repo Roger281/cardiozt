@@ -1,0 +1,176 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block title %} ZT-Inicio - Home{% endblock %}
+
+{% block contains_admin %}
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{% url 'home' %}">Dashboard</a>
+      </li>
+      <li class="breadcrumb-item active">
+        <a href="#">Resultados</a>
+      </li>
+    </ol>
+
+    <!-- DataTables Example -->
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-table"></i>
+            Data Table Example</div>
+          <div class="card-body">
+            <div class="table-responsive">
+                <p class="small text-center text-muted my-5">
+                  <em>Primera table de prediccion...</em>
+                </p>
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>Caracteristicas</th>
+                    <th>Valor</th>
+                    <!--th>Detalles</th-->
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                    <th>Caracteristicas</th>
+                    <th>Valor</th>
+                    <!--th>Detalles</th-->
+                  </tr>
+                </tfoot>
+                <tbody>
+                {% for k, v in prediction_r.items %}
+                    <tr>
+                        <td>{{ k }}</td>
+                        <td>{{ v }}</td>
+                        <!--td>""</td-->
+                    </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+                <p class="small text-center text-muted my-5">
+                  <em>Segunda table de estadisticas generales...</em>
+                </p>
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>Caracteristicas</th>
+                    <th>Sin Tratamiento</th>
+                    <th>Con Tratamiento</th>
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                    <th>Caracteristicas</th>
+                    <th>Sin  Tratamiento</th>
+                    <th>Con Tratamiento</th>
+                  </tr>
+                </tfoot>
+                <tbody>
+                {% for key, value in metrics.items %}
+                    <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value }}</td>
+                    <td>{{ value }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+        </div>
+
+        <p class="small text-center text-muted my-5">
+          <em>More table examples coming soon...</em>
+        </p>
+
+    <!-- Area Chart Example-->
+    <!--div class="card mb-3">
+      <div class="card-header">
+        <i class="fas fa-chart-area"></i>
+        Area Chart Example</div>
+      <div class="card-body">
+        <canvas id="myAreaChart" width="100%" height="30"></canvas>
+      </div>
+      <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+    </div-->
+
+    <div class="row">
+
+      <div class="col-lg-4">
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-chart-pie"></i>
+            Total de pacientes del conjunto de datos</div>
+          <div class="card-body">
+            <p>Description of the graph</p>
+            <canvas id="totalGenero" width="100%" height="100%"></canvas>
+          </div>
+          <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-chart-pie"></i>
+            Personas fallecidas basado en genero</div>
+          <div class="card-body">
+            <p>Description of the graph</p>
+            <canvas id="totalMuertos" width="100%" height="100%"></canvas>
+          </div>
+          <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-chart-pie"></i>
+            Rango de edades</div>
+          <div class="card-body">
+            <p>Description of the graph</p>
+            <canvas id="totalEdades" width="100%" height="100%"></canvas>
+          </div>
+          <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-chart-pie"></i>
+            HTA y DMT2</div>
+          <div class="card-body">
+              <p>Description of the graph</p>
+            <canvas id="myBarChart" width="100%" height="25%"></canvas>
+          </div>
+          <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="small text-center text-muted my-5">
+      <em>More chart examples coming soon...</em>
+    </p>
+{% endblock %}
+
+{% block moreScriptAdmin %}
+    <script>
+    function dict_keys(data){return data}
+    function dict_values(data){return data}
+    function format_data(string){return parseFloat(string)}
+    var total_genero = [format_data('{{ metrics.Hombres|safe }}'), format_data('{{ metrics.Mujeres|safe }}')];
+    var total_genero_tag = {{ extra_info.muertos.keys|safe }};
+    var total_muertos_genero = {{ extra_info.muertos.values|safe }};
+    var total_muertos_genero_tag = {{ extra_info.muertos.keys|safe }};
+    var edades_values = {{ extra_info.edad.values|safe }};
+    var edades_tag = {{ extra_info.edad.keys|safe }};
+    var hta_dmt2_si_values = {{ extra_info.hta_dmt2_si.values|safe }};
+    var hta_dmt2_no_values = {{ extra_info.hta_dmt2_no.values|safe }};
+    var hta_dmt2_tag = {{ extra_info.hta_dmt2_si.keys|safe }};
+    </script>
+  <!-- Demo scripts for this page-->
+  <script src="{% static 'js/demo/chart-bar-demo.js' %}"></script>
+  <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
+{% endblock moreScriptAdmin%}

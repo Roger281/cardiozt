@@ -1,0 +1,219 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block title %} ZT-Inicio - Limpiar datos{% endblock %}
+
+{% block contains_admin %}
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{% url 'home' %}">Modelos</a>
+      </li>
+      <li class="breadcrumb-item active">
+        <a href="{% url 'home' %}">Home</a>
+      </li>
+      <li class="breadcrumb-item active">
+        <a href="{% url 'perfil' %}">Perfil Lipídico</a>
+      </li>
+    </ol>
+
+    <!-- DataTables Example -->
+    <div class="card mb-3">
+      <div class="card-header">
+        <i class="fas fa-table"></i>
+        Calcular Perfil Lipídico</div>
+      <div class="card-body">
+          <form method="post">
+              {% csrf_token %}
+
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Colesterol total:</label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" name="col_t" placeholder="Valor (Ejm: 1.5)" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Sexo:</label>
+                <div class="col-sm-10">
+                  <select class="form-control" id="ControlSelect1" name="sexo">
+                      <option value="1">Hombre</option>
+                      <option value="0">Mujer</option>
+                  </select>
+                </div>
+              </div>
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">HDL-C:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="hdl_c" placeholder="Valor (Ejm: 1.5)" required>
+                </div>
+              </div>
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">NO-HDL-C:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="no_hdl_c" placeholder="Valor (Ejm: 1.5)" required>
+                </div>
+              </div>
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">LDL-C:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="ldl_c" placeholder="Valor (Ejm: 1.5)" required>
+                </div>
+              </div>
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Trigliceridos:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="trigliceridos" placeholder="Valor (Ejm: 1.5)" required>
+                </div>
+              </div>
+
+            <div class="form-group row">
+                <div class="col-sm-10">
+                  <button type="submit" class="btn btn-primary">Calcular</button>
+                </div>
+              </div>
+            </form>
+        <div class="row">
+            <div class="col-md-12">
+                <hr class="separator">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p>Resultados:</p>
+                {% if details %}
+                    {% for result in details %}
+                    <div class="alert alert-{{ result.status }}" role="alert">
+                        {{ result.msg }}
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-primary" role="alert">
+                      Nada que mostrar
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+      {% if details %}
+      <p>
+          <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+             aria-controls="collapseExample">Enviar resultados</a>
+      </p>
+      <div class="collapse" id="collapseExample">
+      <div class="card card-body">
+        <h2>Enviar Email</h2>
+        <p>
+           Enviar resultados al cliente!
+        </p>
+        <form role="form" method="post" id="reused_form">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-sm-12 form-group">
+                    <label for="message">Mensaje:</label>
+                    <textarea class="form-control" type="textarea" name="message" id="message" maxlength="6000" rows="7">
+                    {% for result in details %}
+                        {{ result.msg }}
+                    {% endfor %}
+                    </textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 form-group">
+                    <label for="name">
+                        Tema:</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="col-sm-6 form-group">
+                    <label for="email">
+                        Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 form-group">
+                    <button type="submit" class="btn btn-lg btn-default pull-right" >Send →</button>
+                </div>
+            </div>
+
+        </form>
+        <div id="success_message" style="width:100%; height:100%; display:none; ">
+            <h3>Posted your message successfully!</h3>
+        </div>
+        <div id="error_message" style="width:100%; height:100%; display:none; ">
+            <h3>Error</h3>
+            Sorry there was an error sending your form.
+        </div>
+      </div>
+    </div>
+      {% endif %}
+
+
+      </div>
+      <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+    </div>
+{% endblock %}
+
+{% block moreScripts %}
+<script>
+$(function()
+{
+    function after_form_submitted(data)
+    {
+        if(data.result == 'success')
+        {
+            $('form#reused_form').hide();
+            $('#success_message').show();
+            $('#error_message').hide();
+        }
+        else
+        {
+            $('#error_message').append('<ul></ul>');
+
+            jQuery.each(data.errors,function(key,val)
+            {
+                $('#error_message ul').append('<li>'+key+':'+val+'</li>');
+            });
+            $('#success_message').hide();
+            $('#error_message').show();
+
+            //reverse the response on the button
+            $('button[type="button"]', $form).each(function()
+            {
+                $btn = $(this);
+                label = $btn.prop('orig_label');
+                if(label)
+                {
+                    $btn.prop('type','submit' );
+                    $btn.text(label);
+                    $btn.prop('orig_label','');
+                }
+            });
+
+        }//else
+    }
+
+	$('#reused_form').submit(function(e)
+      {
+        e.preventDefault();
+
+        $form = $(this);
+        //show some response on the button
+        $('button[type="submit"]', $form).each(function()
+        {
+            $btn = $(this);
+            $btn.prop('type','button' );
+            $btn.prop('orig_label',$btn.text());
+            $btn.text('Sending ...');
+        });
+          $.ajax({
+                type: "POST",
+                url: '/sendemail/',
+                data: $form.serialize(),
+                success: after_form_submitted,
+                dataType: 'json'
+            });
+
+      });
+});
+</script>
+{% endblock moreScripts %}

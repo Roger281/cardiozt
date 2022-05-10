@@ -1,0 +1,124 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block title %} ZT-Inicio - Limpiar datos{% endblock %}
+
+{% block contains_admin %}
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{% url 'home' %}">Modelos</a>
+      </li>
+      <li class="breadcrumb-item active">
+        <a href="{% url 'home' %}">Home</a>
+      </li>
+      <li class="breadcrumb-item active">
+        <a href="{% url 'list-models' %}">Limpear Datos</a>
+      </li>
+    </ol>
+
+    <!-- DataTables Example -->
+    <div class="card mb-3">
+      <div class="card-header">
+        <i class="fas fa-table"></i>
+        Clear Data</div>
+      <div class="card-body">
+          <form method="post">
+              {% csrf_token %}
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Archivo</label>
+                <div class="col-sm-10">
+                  <select class="form-control" id="ControlSelect1" name="file">
+                      {% for file in files %}
+                          <option value="{{ file }}">{{ file }}</option>
+                      {% endfor %}
+                  </select>
+                </div>
+              </div>
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Nuevo Nombre</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="new_name" placeholder="Nuevo nombre del archivo (Opional)">
+                </div>
+              </div>
+            <div class="form-group row">
+                <label for="inputDescripcion" class="col-sm-2 col-form-label">Descripción</label>
+                <div class="col-sm-10">
+                    <label for=""></label>
+                    <textarea name="descriptionModel" id="" style="min-width: 100%" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2">Tipo de limpieza</div>
+                <div class="col-sm-10">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" name="clear_option" type="radio" id="gridCheck1" value="auto" checked>
+                    <label class="form-check-label" for="gridCheck1">
+                      Automatica
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" name="clear_option" type="radio" id="gridCheck1" value="media" disabled>
+                    <label class="form-check-label" for="gridCheck1">
+                      Media
+                    </label>
+                  </div>
+                </div>
+              </div>
+            <div class="form-group row">
+                <div class="col-sm-2">Calcular Riesgo Cardiovascular</div>
+                <div class="col-sm-10">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" name="risk_option" type="radio" id="gridCheck2" value="True" checked>
+                    <label class="form-check-label" for="gridCheck2">
+                      Si
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" name="risk_option" type="radio" id="gridCheck3" value="False">
+                    <label class="form-check-label" for="gridCheck3">
+                      No
+                    </label>
+                  </div>
+                </div>
+              </div>
+            <div class="form-group row">
+                <div class="col-sm-2">Calcular Perfil Lipídico</div>
+                <div class="col-sm-10">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" name="perfil_limpidico" type="radio" id="gridCheck2" value="False" checked>
+                    <label class="form-check-label" for="gridCheck2">
+                      Si
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" name="perfil_limpidico" type="radio" id="gridCheck3" value="True">
+                    <label class="form-check-label" for="gridCheck3">
+                      No
+                    </label>
+                  </div>
+                </div>
+              </div>
+            <div class="form-group row">
+                <div class="col-sm-10">
+                  <button type="submit" class="btn btn-primary">Limpiar</button>
+                </div>
+              </div>
+            </form>
+        <div class="row">
+            <div class="col-md-12">
+                <hr class="separator">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <strong>Details:</strong>
+                <pre>
+                    {{details | safe}}
+                </pre>
+            </div>
+        </div>
+
+      </div>
+      <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+    </div>
+{% endblock %}

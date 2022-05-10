@@ -1,0 +1,62 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block title %} ZT-Inicio - Models{% endblock %}
+
+{% block contains_admin %}
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{% url 'home' %}">Modelos</a>
+      </li>
+      <li class="breadcrumb-item active">
+        <a href="{% url 'home' %}">Home</a>
+      </li>
+      <li class="breadcrumb-item active">
+        <a href="{% url 'list-models' %}">Data</a>
+      </li>
+    </ol>
+
+    <!-- DataTables Example -->
+    <h2>{{ data }}</h2>
+    <div class="card mb-3">
+      <div class="card-header">
+        <i class="fas fa-table"></i>
+        Data Table Example</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Descripción</th>
+                <th>Columnas</th>
+                <th>Create Date</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr>
+                <th>Name</th>
+                <th>Descripción</th>
+                <th>Columnas</th>
+                <th>Create Date</th>
+                <th></th>
+              </tr>
+            </tfoot>
+            <tbody>
+            {% for file in files %}
+              <tr>
+                <td>{{ file.file_name }}</td>
+                <td>{{ file.description }}</td>
+                <td>{{ file.columns }}</td>
+                <td>{{ file.create_date }}</td>
+                <td><a href="{% url 'create-model' id_data=file.id_file %}">Create Model</a></td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+    </div>
+{% endblock %}

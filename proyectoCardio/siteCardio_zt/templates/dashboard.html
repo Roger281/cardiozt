@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} ZT-Inicio{% endblock %}
+
+
+{% block moreStyles %}
+  <!-- Custom fonts for this template-->
+  <link href="{% static 'vendor_admin/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+
+  <!-- Page level plugin CSS-->
+  <link href="{% static 'vendor_admin/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="{% static 'css/sb-admin.css' %}" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+
+{% endblock moreStyles %}
+{% block moreStylesAdmin %}
+{% endblock moreStylesAdmin %}
+
+
+{% block contains %}
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="sidebar navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'home' %}">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Modelos</span>
+        </a>
+      </li>
+      <!--li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>Pages</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+          <h6 class="dropdown-header">Login Screens:</h6>
+          <a class="dropdown-item" href="login.html">Login</a>
+          <a class="dropdown-item" href="register.html">Register</a>
+          <a class="dropdown-item" href="forgot-password.html">Forgot Password</a>
+          <div class="dropdown-divider"></div>
+          <h6 class="dropdown-header">Other Pages:</h6>
+          <a class="dropdown-item" href="404.html">404 Page</a>
+          <a class="dropdown-item active" href="blank.html">Blank Page</a>
+        </div>
+      </li-->
+      <!--li class="nav-item">
+        <a class="nav-link" href="#">
+          <i class="fas fa-fw fa-chart-area"></i>
+          <span>Resultados</span></a>
+      </li-->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'list-data' %}">
+          <i class="fas fa-fw fa-database"></i>
+          <span>Listar Datos</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'cleat-data' %}">
+            <i class="fas fa-fw fa-magic"></i>
+            <span>Limpiar datos</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'perfil' %}">
+            <i class="fas fa-fw fa-calculator"></i>
+            <span>Perfil Lipídico</span>
+        </a>
+      </li>
+    </ul>
+
+    <div id="content-wrapper">
+
+      <div class="container-fluid">
+        {% block contains_admin %}
+        {% endblock %}
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block contains_footer %}
+    <!-- Sticky Footer -->
+      <footer class="sticky-footer">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright © cardiozt 2022</span>
+          </div>
+        </div>
+      </footer>
+{% endblock contains_footer %}
+
+{% block moreScripts %}
+  <!-- Bootstrap core JavaScript-->
+  <script src="{% static 'vendor_admin/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor_admin/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'vendor_admin/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Page level plugin JavaScript-->
+  <script src="{% static 'vendor_admin/chart.js/Chart.min.js' %}"></script>
+  <script src="{% static 'vendor_admin/datatables/jquery.dataTables.js' %}"></script>
+  <script src="{% static 'vendor_admin/datatables/dataTables.bootstrap4.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'js/sb-admin.min.js' %}"></script>
+
+  <!-- Demo scripts for this page-->
+  <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
+  <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
+
+    {% block moreScriptAdmin %}
+    {% endblock moreScriptAdmin%}
+{% endblock moreScripts %}

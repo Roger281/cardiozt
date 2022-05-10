@@ -1,0 +1,77 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block title %} ZT-Inicio - Models{% endblock %}
+
+{% block contains_admin %}
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{% url 'home' %}">Dashboard</a>
+      </li>
+      <li class="breadcrumb-item active">
+        <a href="{% url 'home' %}">Home</a>
+      </li>
+      <li class="breadcrumb-item active">
+        <a href="{% url 'list-models' %}">New Model</a>
+      </li>
+    </ol>
+
+    <!-- DataTables Example -->
+    <div class="card mb-3">
+      <div class="card-header">
+        <i class="fas fa-table"></i>
+        {{ data.file_name }} </div>
+      <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Nombre del modelo</label>
+                <div class="col-sm-10">
+                    <input type="text" name="nameModel" class="form-control" id="inputName" placeholder="Nombre" required>
+                    <small id="nameNombre" class="form-text text-muted">No mayor a 60 caracteres.</small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Porcentaje de entrenamiento</label>
+                <div class="col-sm-10">
+                    <input id="rangeInput" name="porcentaje" type="range" class="custom-range" min="0" max="100" step="10" value="20" oninput="amount.value=rangeInput.value">
+                    <output id="amount" name="amount" for="rangeInput">20</output>%
+                    <small id="namePorcentaje" class="form-text text-muted">No debe ser superior al 50%.</small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputDescripcion" class="col-sm-2 col-form-label">Descripción</label>
+                <div class="col-sm-10">
+                    <label for=""></label>
+                    <textarea name="descriptionModel" id="" style="min-width: 100%" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Variables dependientes</label>
+                <div class="col-sm-10">
+                    <input type="text" name="inputVarInde" class="form-control" id="inputVarInde" placeholder="VARIABLE, VARIABLE2" required>
+                    <small id="nameNombre" class="form-text text-muted">Los nombres deben ser separados por comas.</small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2">Variables independientes</div>
+                <div class="col-sm-10">
+                    {% for column in data.columns %}
+                        <div class="form-check form-check-inline" style="padding-left: 10px">
+                            <input name="inputVarDep" class="form-check-input" type="checkbox" id="gridCheck1" value="{{ column }}">
+                            <label class="form-check-label" for="gridCheck1" style="padding-left: 1px">{{ column }}</label>
+                        </div>
+                    {% endfor %}
+                    <small id="nameColumns" class="form-text text-muted">Seleccione las columas para crear el modelo.</small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Crear Modelo</button>
+                </div>
+            </div>
+        </form>
+      </div>
+        <div class="card-footer small text-muted">Created {{ data.create_date | date }}</div>
+    </div>
+{% endblock %}

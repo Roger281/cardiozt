@@ -1,0 +1,88 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block title %} ZT-Inicio - Models{% endblock %}
+
+{% block contains_admin %}
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{% url 'home' %}">Dashboard</a>
+      </li>
+      <li class="breadcrumb-item active">
+        <a href="{% url 'home' %}">Home</a>
+      </li>
+      <li class="breadcrumb-item active">
+        <a href="{% url 'list-models' %}">Models</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a href="">{{ model.name }}</a>
+      </li>
+    </ol>
+
+    <!-- DataTables Example -->
+    <div class="card mb-3">
+      <div class="card-header">
+        <i class="fas fa-table"></i>
+        {{ model.name }}</div>
+      <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-12">
+                    <br>
+                    <strong>Variables Independientes</strong>
+                    <hr class="separator">
+                    <div class="alert alert-warning" role="alert">
+                        Algunos de los atributos son normalizados por el sistema para su manejo, entonces puede existir atributos que solo aceptan valores binarios;<strong> 1 es igual a SI y 0 es igual a NO</strong>.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                {% for var_dep in model.dependent_var %}
+                    <div class="form-group col-md-4">
+                        <label for="input{{ var_dep }}">{{ var_dep }}</label>
+                        {% if var_dep in var_binary %}
+                            <input type="number" step="1" max="1" min="0" name="{{ var_dep }}" class="form-control" id="input{{ var_dep }}" placeholder="Valor de la variable" required>
+                        {% else %}
+                            <input type="number" name="{{ var_dep }}" class="form-control" id="input{{ var_dep }}" placeholder="Valor de la variable" required>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <br>
+                    <strong>Variables Dependientes</strong>
+                    <hr class="separator">
+                </div>
+            </div>
+            <div class="form-row">
+                {% for var_inddep in model.independent_var %}
+                    <div class="form-group col-md-4">
+                        <label for="inputEmail4">{{ var_inddep }}</label>
+                        <input type="text" class="form-control" id="input{{ var_inddep }}" placeholder="Valor a calcular" disabled>
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary">Predecir</button>
+          </form>
+            <div class="row">
+                <div class="col-md-12">
+                    <hr class="separator">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <strong>Prediction:</strong>
+                    <pre>
+                        {{result | safe}}
+                    </pre>
+                </div>
+            </div>
+      </div>
+      <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+    </div>
+{% endblock %}
